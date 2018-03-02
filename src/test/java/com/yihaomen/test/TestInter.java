@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.yihaomen.mybatis.model.Article;
 import com.yihaomen.mybatis.model.User;
 import com.yihaomen.mybatis.model.UserMapper;
 
@@ -103,13 +104,44 @@ public class TestInter {
             session.close();
         }
     }
+    
+    public void getUserArticles(int userid){
+        SqlSession session = sqlSessionFactory.openSession();
+        try {
+        	UserMapper userOperation=session.getMapper(UserMapper.class);          
+            List<Article> articles = userOperation.getUserArticles(userid);
+            for(Article article:articles){
+                System.out.println(article.getTitle()+":"+article.getContent()+
+                        ":作者是:"+article.getUser().getUserName()+":地址:"+
+                         article.getUser().getUserAddress());
+            }
+        } finally {
+            session.close();
+        }
+    }
+    public void getUserArticles2(int userid){
+    	SqlSession session = sqlSessionFactory.openSession();
+    	try {
+    		UserMapper userOperation=session.getMapper(UserMapper.class);          
+    		List<Article> articles = userOperation.getUserArticles2(userid);
+    		for(Article article:articles){
+    			System.out.println(article.getTitle()+":"+article.getContent()+
+    					":作者是:"+article.getUser().getUserName()+":地址:"+
+    					article.getUser().getUserAddress());
+    		}
+    	} finally {
+    		session.close();
+    	}
+    }
 	
 	public static void main(String[] args) {
 		TestInter testUser=new TestInter();
-		testUser.selectUserByID();
-        testUser.getUserList("%");
-        testUser.addUser();
-        testUser.updateUser();
+//		testUser.selectUserByID();
+//        testUser.getUserList("%");
+//        testUser.addUser();
+//        testUser.updateUser();
         //testUser.deleteUser(2);
+		testUser.getUserArticles(1);
+		testUser.getUserArticles2(1);
 	}
 }

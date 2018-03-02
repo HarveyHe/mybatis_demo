@@ -14,4 +14,7 @@ public interface UserMapper {
 	
 	public void deleteUser(int id);
 	
+	List<Article> getUserArticles(int userid);
+	List<Article> getUserArticles2(int userid);
+	
 }
