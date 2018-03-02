@@ -8,8 +8,9 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.yihaomen.mybatis.model.User;
+import com.yihaomen.mybatis.model.UserMapper;
 
-public class Test {
+public class TestInter {
 	private static SqlSessionFactory sqlSessionFactory;
 	private static Reader reader;
 
@@ -28,12 +29,13 @@ public class Test {
 
 	public static void main(String[] args) {
 		SqlSession session = sqlSessionFactory.openSession();
-		try {
-			User user = (User) session.selectOne("com.yihaomen.mybatis.model.UserMapper.selectUserByID", 1);
-			System.out.println(user.getUserAddress());
-			System.out.println(user.getUserName());
-		} finally {
-			session.close();
-		}
+        try {
+        	UserMapper userOperation=session.getMapper(UserMapper.class);
+            User user = userOperation.selectUserByID(1);
+            System.out.println(user.getUserAddress());
+            System.out.println(user.getUserName());
+        } finally {
+            session.close();
+        }
 	}
 }
